@@ -1,0 +1,45 @@
+services:
+  mysql:
+    image: mysql:latest
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - '${MYSQL_PORT}:3306'
+    volumes:
+      - database-volume:/var/lib/mysql
+
+  nginx-rewrite:
+    image: nginx:latest
+    restart: on-failure
+    volumes:
+      - ./docker/${ENV}/nginx/website-rewrite.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./apps/website-rewrite:/apps/website-rewrite
+    ports:
+      - '${NGINX_REWRITE_PORT}:80'
+    depends_on:
+      - website-rewrite-php
+
+  website-rewrite-php:
+    build:
+      context: .
+      dockerfile: docker/${ENV}/php/website-rewrite/Dockerfile
+    volumes:
+      - ./apps/website-rewrite:/apps/website-rewrite
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    user: ${LOCAL_USER}
+
+volumes:
+  database-volume:
