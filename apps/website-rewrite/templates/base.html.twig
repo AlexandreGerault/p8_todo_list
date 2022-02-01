@@ -12,21 +12,10 @@
 
     <!-- Application CSS -->
     <link href="{{ asset('build/app.css') }}" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="{{ asset('css/shop-homepage.css') }}" rel="stylesheet">
 </head>
 
 <body>
-<nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f2fd;" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{ path('homepage') }}">To Do List app</a>
-
-            <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms"/>
-        </div>
-    </div>
-</nav>
+{{ include('partials/navbar.html.twig') }}
 
 <!-- Page Content -->
 <div class="container">
