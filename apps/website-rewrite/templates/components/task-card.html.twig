@@ -24,7 +24,7 @@
             {{ component('button', {text: this.task.isDone ? 'Marquer non terminée' : 'Marquer comme faite', type: 'submit' }) }}
         </form>
         <form action="{{ path('task_delete', {'id' : this.task.id }) }}">
-            {{ component('button', {text: 'Supprimer', type: 'submit', buttonColor: 'red' }) }}
+            {{ component('button', {text: 'Supprimer', type: 'submit', color: 'red' }) }}
         </form>
     </div>
 </div>

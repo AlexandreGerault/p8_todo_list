@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block header_title %}
-    <h1>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
+    <h1 class="my-8 text-4xl">
+        Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !
+    </h1>
 {% endblock %}
 
 {% block body %}
 
-    <div class="row">
-        {{ component('button-link', {href: path('task_create'), text: 'Créer une nouvelle tâche', buttonColor: 'green'}) }}
-        {{ component('button-link', {href: path('task_list'), text: 'Consulter la liste des tâches à faire', buttonColor: 'blue'}) }}
-        {{ component('button-link', {href: "", text: 'Consulter la liste des tâches terminées', buttonColor: 'blue'}) }}
+    <div class="flex gap-4">
+        {{ component('button-link', {href: path('task_create'), text: 'Créer une nouvelle tâche', color: 'green'}) }}
+        {{ component('button-link', {href: path('task_list'), text: 'Consulter la liste des tâches à faire', color: 'blue'}) }}
+        {{ component('button-link', {href: "", text: 'Consulter la liste des tâches terminées', color: 'blue'}) }}
     </div>
 {% endblock %}
