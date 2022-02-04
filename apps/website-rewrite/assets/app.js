@@ -8,3 +8,6 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 import './styles/shop-homepage.css';
+import feather from "feather-icons/dist/feather"
+
+window.addEventListener('DOMContentLoaded', () => feather.replace())

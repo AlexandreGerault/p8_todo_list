@@ -8,7 +8,9 @@
         {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
         {{ form_widget(form) }}
 
-        <button type="submit" class="btn btn-success pull-right">Modifier</button>
+        <div class="flex justify-end">
+            {{ component('button', {text: 'Modifier', color: 'green', type: 'submit'}) }}
+        </div>
         {{ form_end(form) }}
     </div>
 {% endblock %}

@@ -1,0 +1,30 @@
+<div class="bg-white rounded shadow px-6 py-4 space-y-4">
+    <div class="flex justify-between">
+        <div>
+            <h4 class="font-bold text-xl">
+                <a href="{{ path('task_edit', {'id' : this.task.id }) }}" class="text-blue-600 hover:text-blue-800">
+                    {{ this.task.title }}
+                </a>
+            </h4>
+            <p>{{ this.task.content }}</p>
+        </div>
+
+        <div>
+            {% if this.task.isDone %}
+                <i data-feather="check-square" class="w-4 h-4"></i>
+            {% else %}
+                <i data-feather="square" class="w-4 h-4"></i>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="flex justify-between gap-4">
+        <form action="{{ path('task_toggle', {'id' : this.task.id }) }}">
+            {{ component('button', {text: this.task.isDone ? 'Marquer non terminée' : 'Marquer comme faite', type: 'submit' }) }}
+        </form>
+        <form action="{{ path('task_delete', {'id' : this.task.id }) }}">
+            {{ component('button', {text: 'Supprimer', type: 'submit', color: 'red' }) }}
+        </form>
+    </div>
+</div>

@@ -1,19 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if error %}
-        <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            {% if error %}
+                {{ component('alert', {text: error.messageKey|trans(error.messageData, 'security'), color: 'red'}) }}
+            {% endif %}
 
-    <form action="{{ path('login_check') }}" method="post">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <form action="{{ path('login_check') }}" method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <label for="username">Nom d'utilisateur :</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                <div class="flex justify-between gap-8">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700">
+                            Utilisateur
+                        </label>
+                        <div class="mt-1">
+                            <input id="username" name="_username" type="text" required value="{{ last_username }}"
+                                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                    </div>
 
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="_password" />
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">
+                            Mot de passe
+                        </label>
+                        <div class="mt-1">
+                            <input id="password" name="_password" type="password" autocomplete="current-password"
+                                   required
+                                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                    </div>
 
-        <button class="btn btn-success" type="submit">Se connecter</button>
-    </form>
+                    <div class="shrink-0 self-end">
+                        {{ component('button', {text: 'Se connecter', color: 'green', type: 'submit'}) }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
