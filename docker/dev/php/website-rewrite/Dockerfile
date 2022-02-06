@@ -12,13 +12,14 @@ RUN apt-get update && \
     libfreetype6-dev
 
 RUN pecl install apcu \
-    pecl install imagick
+    pecl install imagick \
+    install xdebug
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 RUN docker-php-ext-install bcmath exif pdo_mysql mysqli zip gd
 
-RUN docker-php-ext-enable apcu imagick
+RUN docker-php-ext-enable apcu imagick xdebug
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
