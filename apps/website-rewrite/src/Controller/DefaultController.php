@@ -6,12 +6,17 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
+#[Route(path: '/', name: 'homepage')]
 class DefaultController extends AbstractController
 {
-    #[Route(path: '/', name: 'homepage')]
-    public function indexAction(): ?Response
+    public function __construct(private Environment $twig)
     {
-        return $this->render('default/index.html.twig');
+    }
+
+    public function __invoke(): ?Response
+    {
+        return new Response($this->twig->render('default/index.html.twig'));
     }
 }
