@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-
     <div class="flex gap-4">
         {{ component('button-link', {href: path('task_create'), text: 'Créer une nouvelle tâche', color: 'green'}) }}
         {{ component('button-link', {href: path('task_list'), text: 'Consulter la liste des tâches à faire', color: 'blue'}) }}
