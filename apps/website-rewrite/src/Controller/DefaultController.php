@@ -11,12 +11,12 @@ use Twig\Environment;
 #[Route(path: '/', name: 'homepage')]
 class DefaultController extends AbstractController
 {
-    public function __construct(private Environment $twig)
+    public function __construct()
     {
     }
 
-    public function __invoke(): ?Response
+    public function __invoke(): Response
     {
-        return new Response($this->twig->render('default/index.html.twig'));
+        return $this->render('default/index.html.twig');
     }
 }
