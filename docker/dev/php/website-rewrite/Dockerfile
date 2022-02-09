@@ -11,9 +11,7 @@ RUN apt-get update && \
     libssl-dev \
     libfreetype6-dev
 
-RUN pecl install apcu \
-    pecl install imagick \
-    install xdebug
+RUN pecl install apcu imagick xdebug
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
