@@ -8,7 +8,7 @@ use App\Tests\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function test_it_renders_the_homepage_with_possible_actions(): void
+    public function testItRendersTheHomepageWithPossibleActions(): void
     {
         $client = static::createClient();
 
@@ -21,7 +21,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertSelectorTextContains('a[href="/tasks"]', 'Consulter la liste des tâches à faire');
     }
 
-    public function test_a_guest_user_is_redirected(): void
+    public function testAGuestUserIsRedirected(): void
     {
         $client = static::createClient();
 

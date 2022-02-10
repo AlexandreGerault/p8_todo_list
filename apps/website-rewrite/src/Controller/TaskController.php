@@ -22,7 +22,7 @@ class TaskController extends AbstractController
     public function listAction(): ?Response
     {
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->taskRepository->findAll()
+            'tasks' => $this->taskRepository->findAll(),
         ]);
     }
 

@@ -37,13 +37,13 @@ legacy-status: ## Stack status
 #-----------------------------------------------------------
 
 format: ## Lint the code
-	docker-compose run php tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --allow-risky=yes
+	docker-compose exec website-rewrite-php vendor/bin/php-cs-fixer fix --allow-risky=yes
 
 analyse: ## Static analysis
-	docker-compose run php ./vendor/bin/phpstan analyse --memory-limit=2G
+	docker-compose exec website-rewrite-php ./vendor/bin/phpstan analyse --memory-limit=2G
 
 test: ## Start the whole test suite
-	docker-compose run php php artisan test
+	docker-compose exec website-rewrite-php php vendor/bin/phpunit
 
 prepare: format analyse test
 

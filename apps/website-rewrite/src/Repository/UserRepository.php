@@ -23,6 +23,7 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
      * @throws ORMException
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
