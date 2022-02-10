@@ -10,8 +10,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'login')]
-    public function loginAction(AuthenticationUtils $authenticationUtils): ?Response
+    public function login(AuthenticationUtils $authenticationUtils): ?Response
     {
+        if($this->isGranted('ROLE_USER')) {
+           return $this->redirectToRoute('homepage');
+        }
+
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
