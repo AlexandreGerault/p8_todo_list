@@ -13,7 +13,14 @@ class WebTestCase extends BaseWebTestCase
     public function actingAsAdmin(KernelBrowser $client): void
     {
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail('admin@localhost');
-        $client->loginUser($testUser);
+        $admin = $userRepository->findOneByEmail('admin@localhost');
+        $client->loginUser($admin);
+    }
+
+    public function actingAsUser(KernelBrowser $client): void
+    {
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $user = $userRepository->findOneByEmail('user@localhost');
+        $client->loginUser($user);
     }
 }
