@@ -20,16 +20,4 @@ class SecurityController extends AbstractController
             'error' => $error,
         ]);
     }
-
-    #[Route(path: '/login_check', name: 'login_check')]
-    public function loginCheck(): void
-    {
-        // This code is never executed.
-    }
-
-    #[Route(path: 'logout', name: 'logout')]
-    public function logoutCheck(): void
-    {
-        // This code is never executed.
-    }
 }
