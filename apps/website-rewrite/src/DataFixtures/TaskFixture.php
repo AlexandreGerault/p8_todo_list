@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Task;
-use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class TaskFixture extends Fixture
 {
@@ -35,6 +33,7 @@ class TaskFixture extends Fixture
         $task->setTitle($title);
         $task->setContent($content);
         $task->setCreatedAt(new DateTimeImmutable($dateTime));
+
         return $task;
     }
 }

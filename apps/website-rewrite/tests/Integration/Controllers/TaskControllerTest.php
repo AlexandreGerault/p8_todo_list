@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controllers;
 
-use App\Repository\TaskRepository;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -22,7 +21,7 @@ class TaskControllerTest extends WebTestCase
         $this->generator = $this->getContainer()->get('router');
     }
 
-    public function test_it_displays_all_tasks_on_list_page_to_a_user(): void
+    public function testItDisplaysAllTasksOnListPageToAUser(): void
     {
         $this->actingAsUser($this->client);
 
@@ -34,7 +33,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertStringContainsString('Titre tâche 2', $crawler->html());
     }
 
-    public function test_guest_cannot_see_tasks_list(): void
+    public function testGuestCannotSeeTasksList(): void
     {
         $taskListUrl = $this->generator->generate('task_list');
         $crawler = $this->client->request('GET', $taskListUrl);
@@ -43,7 +42,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertRouteSame('login');
     }
 
-    public function test_a_guest_cannot_see_creation_form(): void
+    public function testAGuestCannotSeeCreationForm(): void
     {
         $taskCreateUrl = $this->generator->generate('task_create');
         $crawler = $this->client->request('GET', $taskCreateUrl);
@@ -52,7 +51,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertRouteSame('login');
     }
 
-    public function test_a_user_can_create_a_task(): void
+    public function testAUserCanCreateATask(): void
     {
         $this->actingAsUser($this->client);
 
@@ -66,7 +65,7 @@ class TaskControllerTest extends WebTestCase
             'task' => [
                 'title' => 'Titre de la nouvelle tâche',
                 'content' => 'Contenu de la nouvelle tâche',
-            ]
+            ],
         ]);
         $crawler = $this->client->followRedirect();
         $this->assertRouteSame('task_list');
@@ -74,7 +73,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
     }
 
-    public function test_a_guest_cannot_see_edit_form(): void
+    public function testAGuestCannotSeeEditForm(): void
     {
         $taskEditUrl = $this->generator->generate('task_edit', ['id' => 1]);
         $crawler = $this->client->request('GET', $taskEditUrl);
@@ -83,7 +82,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertRouteSame('login');
     }
 
-    public function test_a_user_can_edit_a_task(): void
+    public function testAUserCanEditATask(): void
     {
         $this->actingAsUser($this->client);
 
@@ -97,7 +96,7 @@ class TaskControllerTest extends WebTestCase
             'task' => [
                 'title' => 'Titre de la nouvelle tâche 1',
                 'content' => 'Contenu de la nouvelle tâche 1',
-            ]
+            ],
         ]);
 
         $crawler = $this->client->followRedirect();
@@ -108,7 +107,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
     }
 
-    public function test_a_guest_cannot_toggle_a_task(): void
+    public function testAGuestCannotToggleATask(): void
     {
         $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => 1]);
         $crawler = $this->client->request('GET', $taskToggleUrl);
@@ -117,7 +116,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertRouteSame('login');
     }
 
-    public function test_a_user_can_toggle_a_task(): void
+    public function testAUserCanToggleATask(): void
     {
         $this->actingAsUser($this->client);
 
@@ -130,7 +129,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('div[data-is-done="1"]'));
     }
 
-    public function test_a_guest_cannot_delete_a_task(): void
+    public function testAGuestCannotDeleteATask(): void
     {
         $taskDeleteUrl = $this->generator->generate('task_delete', ['id' => 1]);
         $crawler = $this->client->request('GET', $taskDeleteUrl);
@@ -139,7 +138,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertRouteSame('login');
     }
 
-    public function test_a_user_can_delete_a_task(): void
+    public function testAUserCanDeleteATask(): void
     {
         $this->actingAsUser($this->client);
 
