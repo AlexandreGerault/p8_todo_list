@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controllers;
 
-use App\Tests\WebTestCase;
-
-class DefaultControllerTest extends WebTestCase
+class DefaultControllerTest extends ControllerTestCase
 {
     public function testItRendersTheHomepageWithPossibleActions(): void
     {
-        $client = static::createClient();
-
-        $this->actingAsAdmin($client);
-        $client->request('GET', '/');
+        $this->actingAsAdmin($this->client);
+        $this->client->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Bienvenue');
@@ -23,9 +19,7 @@ class DefaultControllerTest extends WebTestCase
 
     public function testAGuestUserIsRedirected(): void
     {
-        $client = static::createClient();
-
-        $client->request('GET', '/');
+        $this->client->request('GET', '/');
 
         $this->assertResponseRedirects('http://localhost/login');
     }

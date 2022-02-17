@@ -4,23 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controllers;
 
-use App\Tests\WebTestCase;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-class SecurityControllerTest extends WebTestCase
+class SecurityControllerTest extends ControllerTestCase
 {
-    private UrlGeneratorInterface $generator;
-    private KernelBrowser $client;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->client = static::createClient();
-        $this->generator = $this->getContainer()->get('router');
-    }
-
     public function testItRedirectsTheUserOnTheHomepageWhenAlreadyLoggedIn(): void
     {
         $this->actingAsUser($this->client);
