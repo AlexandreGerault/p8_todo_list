@@ -19,7 +19,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks', name: 'task_list')]
-    public function listAction(): ?Response
+    public function list(): ?Response
     {
         return $this->render('task/list.html.twig', [
             'tasks' => $this->taskRepository->findAll(),
@@ -27,7 +27,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/create', name: 'task_create')]
-    public function createAction(Request $request, EntityManagerInterface $em): RedirectResponse|Response|null
+    public function create(Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -47,7 +47,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/edit', name: 'task_edit')]
-    public function editAction(Task $task, Request $request, EntityManagerInterface $em): RedirectResponse|Response|null
+    public function edit(Task $task, Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $form = $this->createForm(TaskType::class, $task);
 
@@ -68,7 +68,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
-    public function toggleTaskAction(Task $task, EntityManagerInterface $em): RedirectResponse
+    public function toggle(Task $task, EntityManagerInterface $em): RedirectResponse
     {
         $task->toggle(!$task->isDone());
         $em->flush();
