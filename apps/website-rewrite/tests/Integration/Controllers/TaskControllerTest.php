@@ -61,7 +61,7 @@ class TaskControllerTest extends ControllerTestCase
     public function testAGuestCannotSeeEditForm(): void
     {
         $taskEditUrl = $this->generator->generate('task_edit', ['id' => 1]);
-        $crawler = $this->client->request('GET', $taskEditUrl);
+        $this->client->request('GET', $taskEditUrl);
 
         $this->client->followRedirect();
         $this->assertRouteSame('login');
