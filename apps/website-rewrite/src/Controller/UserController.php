@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +20,12 @@ class UserController extends AbstractController
     public function listAction(UserRepository $userRepository): ?Response
     {
         return $this->render('user/list.html.twig', [
-            'users' => $userRepository->findAll()
+            'users' => $userRepository->findAll(),
         ]);
     }
 
     #[Route(path: '/users/create', name: 'user_create')]
-    public function createAction(
+    public function create(
         Request $request,
         EntityManagerInterface $em,
         UserPasswordHasherInterface $hasher
@@ -50,7 +51,7 @@ class UserController extends AbstractController
     }
 
     #[Route(path: '/users/{id}/edit', name: 'user_edit')]
-    public function editAction(
+    public function edit(
         User $user,
         Request $request,
         UserPasswordHasherInterface $hasher,
@@ -66,7 +67,7 @@ class UserController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
+            $this->addFlash('success', "L'utilisateur a bien été modifié.");
 
             return $this->redirectToRoute('user_list');
         }

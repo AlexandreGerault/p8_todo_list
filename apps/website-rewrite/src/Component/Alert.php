@@ -17,9 +17,6 @@ class Alert
     {
         $this->colorClasses = match (Colors::from($color)) {
             Colors::RED => ' bg-red-200 text-red-900 ',
-            Colors::BLUE => ' bg-blue-200 text-blue-900 ',
-            Colors::GREEN => ' bg-green-200 text-green-900 ',
-            Colors::ORANGE => ' bg-orange-200 text-orange-900 ',
         };
     }
 }

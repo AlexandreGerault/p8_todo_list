@@ -9,7 +9,7 @@
             <p>{{ this.task.content }}</p>
         </div>
 
-        <div>
+        <div data-is-done="{{ this.task.isDone }}">
             {% if this.task.isDone %}
                 <i data-feather="check-square" class="w-4 h-4"></i>
             {% else %}

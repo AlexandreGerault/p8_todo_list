@@ -41,16 +41,6 @@ class Task
         return $this->id;
     }
 
-    public function getCreatedAt(): DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
     public function getTitle(): string
     {
         return $this->title;
