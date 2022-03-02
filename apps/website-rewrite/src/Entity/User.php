@@ -49,6 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @codeCoverageIgnore
      * @return null
      */
     public function getSalt()
@@ -81,9 +82,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->roles;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function addRole(string $role): void
     {
-        $this->roles[] = $role;
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
     }
 
     public function eraseCredentials(): void
