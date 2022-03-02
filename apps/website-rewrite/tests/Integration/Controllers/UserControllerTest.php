@@ -76,17 +76,7 @@ class UserControllerTest extends ControllerTestCase
         $this->client->request('GET', $userEditUrl);
 
         $this->assertResponseStatusCodeSame(403);
-//
-//        $this->client->submitForm('Modifier', [
-//            'user' => [
-//                'username' => 'Utilisateur modifié',
-//                'password' => ['first' => 'password', 'second' => 'password'],
-//                'email' => 'nouvel-utilisateur@email.fr'
-//            ],
-//        ]);
-//        $crawler = $this->client->followRedirect();
-//        $this->assertRouteSame('user_list');
-//        $this->assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
+
 
     }
 
@@ -102,9 +92,11 @@ class UserControllerTest extends ControllerTestCase
         $this->assertStringContainsString('user@localhost', $crawler->html());
     }
 
-    private function assertCanCreateUser(): void
+    public function testAnAdminCanCreateUser(): void
     {
         $userCreateUrl = $this->generator->generate('user_create');
+
+        $this->actingAsAdmin();
         $crawler = $this->client->request('GET', $userCreateUrl);
 
         $this->assertResponseIsSuccessful();
@@ -120,5 +112,26 @@ class UserControllerTest extends ControllerTestCase
         $crawler = $this->client->followRedirect();
         $this->assertRouteSame('user_list');
         $this->assertStringContainsString("L'utilisateur a bien été ajouté.", $crawler->html());
+    }
+
+    public function testAnAdminCanEditUser(): void
+    {
+        $loginUrl = $this->generator->generate('login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL);
+        $userEditUrl = $this->generator->generate('user_edit', ['id' => 1]);
+
+        $this->actingAsAdmin();
+        $this->client->request('GET', $userEditUrl);
+
+        $this->assertResponseIsSuccessful();
+        $this->client->submitForm('Modifier', [
+            'user' => [
+                'username' => 'Utilisateur modifié',
+                'password' => ['first' => 'password', 'second' => 'password'],
+                'email' => 'nouvel-utilisateur@email.fr'
+            ],
+        ]);
+        $crawler = $this->client->followRedirect();
+        $this->assertRouteSame('user_list');
+        $this->assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
     }
 }
