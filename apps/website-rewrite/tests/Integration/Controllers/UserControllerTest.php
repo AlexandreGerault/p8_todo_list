@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controllers;
 
+use App\DataFixtures\UserFixture;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserControllerTest extends ControllerTestCase
@@ -51,28 +52,18 @@ class UserControllerTest extends ControllerTestCase
     public function testAGuestCannotEditUser(): void
     {
         $loginUrl = $this->generator->generate('login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL);
-        $userEditUrl = $this->generator->generate('user_edit', ['id' => 1]);
+        $userEditUrl = $this->generator->generate('user_edit', ['id' => UserFixture::ACTING_USER]);
 
         $this->client->request('GET', $userEditUrl);
 
         $this->assertResponseRedirects($loginUrl);
-//        $this->client->submitForm('Modifier', [
-//            'user' => [
-//                'username' => 'Utilisateur modifié',
-//                'password' => ['first' => 'password', 'second' => 'password'],
-//                'email' => 'nouvel-utilisateur@email.fr'
-//            ],
-//        ]);
-//        $crawler = $this->client->followRedirect();
-//        $this->assertRouteSame('user_list');
-//        $this->assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
     }
 
     public function testAUserCannotEditAnotherUser(): void
     {
         $this->actingAsUser();
 
-        $userEditUrl = $this->generator->generate('user_edit', ['id' => 1]);
+        $userEditUrl = $this->generator->generate('user_edit', ['id' => UserFixture::ACTING_USER]);
         $this->client->request('GET', $userEditUrl);
 
         $this->assertResponseStatusCodeSame(403);
@@ -116,8 +107,7 @@ class UserControllerTest extends ControllerTestCase
 
     public function testAnAdminCanEditUser(): void
     {
-        $loginUrl = $this->generator->generate('login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL);
-        $userEditUrl = $this->generator->generate('user_edit', ['id' => 1]);
+        $userEditUrl = $this->generator->generate('user_edit', ['id' => UserFixture::ACTING_USER]);
 
         $this->actingAsAdmin();
         $this->client->request('GET', $userEditUrl);
