@@ -19,6 +19,7 @@ class UserFixture extends Fixture
     {
         $manager->persist($this->makeAdmin('admin@localhost', 'Administrator', 'admin'));
         $manager->persist($this->makeUser('user@localhost', 'User', 'user'));
+        $manager->persist($this->makeUser('user2@localhost', 'User2', 'user2'));
 
         $manager->flush();
     }
