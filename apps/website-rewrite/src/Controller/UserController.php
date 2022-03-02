@@ -39,6 +39,11 @@ class UserController extends AbstractController
             $password = $hasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
+            $user->addRole(match ($form->get('role')->getData()) {
+                'admin' => 'ROLE_ADMIN',
+                default => 'ROLE_USER'
+            });
+
             $em->persist($user);
             $em->flush();
 
