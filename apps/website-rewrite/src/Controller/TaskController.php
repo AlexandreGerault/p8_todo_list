@@ -6,6 +6,7 @@ use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +48,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/edit', name: 'task_edit')]
+    #[IsGranted('TASK_EDIT', subject: 'task')]
     public function edit(Task $task, Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $form = $this->createForm(TaskType::class, $task);
@@ -68,6 +70,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
+    #[IsGranted('TASK_TOGGLE', subject: 'task')]
     public function toggle(Task $task, EntityManagerInterface $em): RedirectResponse
     {
         $task->toggle(!$task->isDone());

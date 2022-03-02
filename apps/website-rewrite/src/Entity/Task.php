@@ -30,10 +30,14 @@ class Task
     #[ORM\Column(type: 'boolean')]
     private bool $isDone;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $user;
+
     public function __construct()
     {
         $this->createdAt = new Datetime();
         $this->isDone = false;
+        $this->user = null;
     }
 
     public function getId(): int
@@ -69,5 +73,26 @@ class Task
     public function toggle(bool $flag): void
     {
         $this->isDone = $flag;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setCreatedAt(DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }
