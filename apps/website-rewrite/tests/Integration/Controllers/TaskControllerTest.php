@@ -15,6 +15,7 @@ class TaskControllerTest extends ControllerTestCase
         $this->actingAsUser();
 
         $taskListUrl = $this->generator->generate('task_list');
+
         $crawler = $this->client->request('GET', $taskListUrl);
 
         $this->assertResponseIsSuccessful();
@@ -25,18 +26,20 @@ class TaskControllerTest extends ControllerTestCase
     public function testGuestCannotSeeTasksList(): void
     {
         $taskListUrl = $this->generator->generate('task_list');
-        $this->client->request('GET', $taskListUrl);
 
+        $this->client->request('GET', $taskListUrl);
         $this->client->followRedirect();
+
         $this->assertRouteSame('login');
     }
 
     public function testAGuestCannotSeeCreationForm(): void
     {
         $taskCreateUrl = $this->generator->generate('task_create');
-        $this->client->request('GET', $taskCreateUrl);
 
+        $this->client->request('GET', $taskCreateUrl);
         $this->client->followRedirect();
+
         $this->assertRouteSame('login');
     }
 
@@ -89,10 +92,9 @@ class TaskControllerTest extends ControllerTestCase
                 'content' => 'Contenu de la nouvelle tâche 2',
             ],
         ]);
-
         $crawler = $this->client->followRedirect();
-        $this->assertRouteSame('task_list');
 
+        $this->assertRouteSame('task_list');
         $this->assertStringNotContainsString('Titre tâche 2', $crawler->html());
         $this->assertStringContainsString('La tâche a bien été modifiée.', $crawler->html());
         $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
@@ -101,9 +103,10 @@ class TaskControllerTest extends ControllerTestCase
     public function testAGuestCannotToggleATask(): void
     {
         $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::ACTING_USER_TASK_ID]);
-        $this->client->request('GET', $taskToggleUrl);
 
+        $this->client->request('GET', $taskToggleUrl);
         $this->client->followRedirect();
+
         $this->assertRouteSame('login');
     }
 
@@ -112,20 +115,21 @@ class TaskControllerTest extends ControllerTestCase
         $this->actingAsUser();
 
         $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::ACTING_USER_TASK_ID]);
-        $crawler = $this->client->request('GET', $taskToggleUrl);
 
+        $this->client->request('GET', $taskToggleUrl);
         $crawler = $this->client->followRedirect();
-        $this->assertRouteSame('task_list');
 
+        $this->assertRouteSame('task_list');
         $this->assertCount(1, $crawler->filter('div[data-is-done="1"]'));
     }
 
     public function testAGuestCannotDeleteATask(): void
     {
         $taskDeleteUrl = $this->generator->generate('task_delete', ['id' => self::ACTING_USER_TASK_ID]);
-        $this->client->request('GET', $taskDeleteUrl);
 
+        $this->client->request('GET', $taskDeleteUrl);
         $this->client->followRedirect();
+
         $this->assertRouteSame('login');
     }
 
@@ -134,11 +138,11 @@ class TaskControllerTest extends ControllerTestCase
         $this->actingAsUser();
 
         $taskDeleteUrl = $this->generator->generate('task_delete', ['id' => self::ACTING_USER_TASK_ID]);
+
         $this->client->request('GET', $taskDeleteUrl);
-
         $crawler = $this->client->followRedirect();
-        $this->assertRouteSame('task_list');
 
+        $this->assertRouteSame('task_list');
         $this->assertStringNotContainsString('Titre tâche ' . self::ACTING_USER_TASK_ID, $crawler->html());
     }
 
@@ -147,6 +151,7 @@ class TaskControllerTest extends ControllerTestCase
         $this->actingAsUser();
 
         $taskEditUrl = $this->generator->generate('task_edit', ['id' => self::BELONGING_TO_OTHER_USER_TASK_ID]);
+
         $this->client->request('GET', $taskEditUrl);
 
         $this->assertResponseStatusCodeSame(403);
