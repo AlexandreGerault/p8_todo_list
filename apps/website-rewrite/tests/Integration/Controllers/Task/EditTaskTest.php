@@ -50,4 +50,39 @@ class EditTaskTest extends TaskTest
 
         $this->assertResponseStatusCodeSame(403);
     }
+
+    public function testAUserCannotEditAnAnonymousTask(): void
+    {
+        $this->actingAsUser();
+
+        $taskEditUrl = $this->generator->generate('task_edit', ['id' => self::ORPHAN_TASK_ID]);
+
+        $this->client->request('GET', $taskEditUrl);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testAnAdminCanEditAnAnonymousTask(): void
+    {
+        $this->actingAsAdmin();
+
+        $taskEditUrl = $this->generator->generate('task_edit', ['id' => self::ORPHAN_TASK_ID]);
+        $crawler = $this->client->request('GET', $taskEditUrl);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertStringContainsString('Modifier', $crawler->html());
+
+        $this->client->submitForm('Modifier', [
+            'task' => [
+                'title' => 'Titre de la nouvelle tâche 1',
+                'content' => 'Contenu de la nouvelle tâche 1',
+            ],
+        ]);
+        $crawler = $this->client->followRedirect();
+
+        $this->assertRouteSame('task_list');
+        $this->assertStringNotContainsString('Titre tâche 1', $crawler->html());
+        $this->assertStringContainsString('La tâche a bien été modifiée.', $crawler->html());
+        $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
+    }
 }

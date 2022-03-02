@@ -28,4 +28,17 @@ class DeleteTaskTest extends TaskTest
         $this->assertRouteSame('task_list');
         $this->assertStringNotContainsString('Titre tâche ' . self::ACTING_USER_TASK_ID, $crawler->html());
     }
+
+    public function testAnAdminCanDeleteATask(): void
+    {
+        $this->actingAsAdmin();
+
+        $taskDeleteUrl = $this->generator->generate('task_delete', ['id' => self::ACTING_USER_TASK_ID]);
+
+        $this->client->request('GET', $taskDeleteUrl);
+        $crawler = $this->client->followRedirect();
+
+        $this->assertRouteSame('task_list');
+        $this->assertStringNotContainsString('Titre tâche ' . self::ACTING_USER_TASK_ID, $crawler->html());
+    }
 }

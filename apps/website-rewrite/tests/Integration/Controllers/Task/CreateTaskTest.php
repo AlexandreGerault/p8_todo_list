@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controllers\Task;
 
+use Symfony\Component\DomCrawler\Crawler;
+
 class CreateTaskTest extends TaskTest
 {
     public function testAGuestCannotSeeCreationForm(): void
@@ -20,6 +22,26 @@ class CreateTaskTest extends TaskTest
     {
         $this->actingAsUser();
 
+        $crawler = $this->createTask();
+
+        $this->assertRouteSame('task_list');
+        $this->assertStringContainsString('La tâche a été bien été ajoutée.', $crawler->html());
+        $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
+    }
+
+    public function testAnAdminCanCreateATask(): void
+    {
+        $this->actingAsAdmin();
+
+        $crawler = $this->createTask();
+
+        $this->assertRouteSame('task_list');
+        $this->assertStringContainsString('La tâche a été bien été ajoutée.', $crawler->html());
+        $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
+    }
+
+    private function createTask(): Crawler
+    {
         $taskCreateUrl = $this->generator->generate('task_create');
         $crawler = $this->client->request('GET', $taskCreateUrl);
 
@@ -32,10 +54,7 @@ class CreateTaskTest extends TaskTest
                 'content' => 'Contenu de la nouvelle tâche',
             ],
         ]);
-        $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('task_list');
-        $this->assertStringContainsString('La tâche a été bien été ajoutée.', $crawler->html());
-        $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
+        return $this->client->followRedirect();
     }
 }

@@ -30,4 +30,17 @@ class ListTasksTest extends ControllerTestCase
         $this->assertStringContainsString('Titre tâche 1', $crawler->html());
         $this->assertStringContainsString('Titre tâche 2', $crawler->html());
     }
+
+    public function testItDisplaysAllTasksOnListPageToAnAdmin(): void
+    {
+        $this->actingAsAdmin();
+
+        $taskListUrl = $this->generator->generate('task_list');
+
+        $crawler = $this->client->request('GET', $taskListUrl);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertStringContainsString('Titre tâche 1', $crawler->html());
+        $this->assertStringContainsString('Titre tâche 2', $crawler->html());
+    }
 }
