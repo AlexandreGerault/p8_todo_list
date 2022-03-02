@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Controllers;
 
-use App\Tests\WebTestCase;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
 class ControllerTestCase extends WebTestCase
@@ -19,5 +20,19 @@ class ControllerTestCase extends WebTestCase
 
         $this->client = static::createClient();
         $this->generator = $this->getContainer()->get('router');
+    }
+
+    public function actingAsAdmin(): void
+    {
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $admin = $userRepository->findOneByEmail('admin@localhost');
+        $this->client->loginUser($admin);
+    }
+
+    public function actingAsUser(): void
+    {
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $user = $userRepository->findOneByEmail('user@localhost');
+        $this->client->loginUser($user);
     }
 }
