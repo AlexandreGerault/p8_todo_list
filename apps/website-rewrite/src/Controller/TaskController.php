@@ -48,10 +48,9 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/edit', name: 'task_edit')]
-//    #[IsGranted('TASK_EDIT', subject: 'task')]
+    #[IsGranted('TASK_EDIT', subject: 'task')]
     public function edit(Task $task, Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
-        $this->denyAccessUnlessGranted('TASK_EDIT', $task);
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -71,6 +70,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
+    #[IsGranted('TASK_TOGGLE', subject: 'task')]
     public function toggle(Task $task, EntityManagerInterface $em): RedirectResponse
     {
         $task->toggle(!$task->isDone());
