@@ -101,7 +101,7 @@ class TaskControllerTest extends ControllerTestCase
     public function testAGuestCannotToggleATask(): void
     {
         $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::ACTING_USER_TASK_ID]);
-        $crawler = $this->client->request('GET', $taskToggleUrl);
+        $this->client->request('GET', $taskToggleUrl);
 
         $this->client->followRedirect();
         $this->assertRouteSame('login');
@@ -109,7 +109,7 @@ class TaskControllerTest extends ControllerTestCase
 
     public function testAUserCanToggleATask(): void
     {
-        $this->actingAsUser($this->client);
+        $this->actingAsUser();
 
         $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::ACTING_USER_TASK_ID]);
         $crawler = $this->client->request('GET', $taskToggleUrl);
@@ -123,7 +123,7 @@ class TaskControllerTest extends ControllerTestCase
     public function testAGuestCannotDeleteATask(): void
     {
         $taskDeleteUrl = $this->generator->generate('task_delete', ['id' => self::ACTING_USER_TASK_ID]);
-        $crawler = $this->client->request('GET', $taskDeleteUrl);
+        $this->client->request('GET', $taskDeleteUrl);
 
         $this->client->followRedirect();
         $this->assertRouteSame('login');
