@@ -135,4 +135,15 @@ class TaskControllerTest extends ControllerTestCase
 
         $this->assertStringNotContainsString('Titre tâche 1', $crawler->html());
     }
+
+    public function testAUserCannotEditTheTaskOfAnotherUser(): void
+    {
+        $this->actingAsUser();
+
+        $taskDeleteUrl = $this->generator->generate('task_delete', ['id' => 3]);
+        $this->client->request('GET', $taskDeleteUrl);
+
+        $this->assertResponseStatusCodeSame(403);
+
+    }
 }
