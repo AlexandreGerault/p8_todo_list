@@ -29,6 +29,7 @@ class UserFixture extends Fixture
         $admin->setEmail($email);
         $admin->setUsername($username);
         $admin->setPassword($this->hasher->hashPassword($admin, $plainPassword));
+        $admin->addRole('ROLE_ADMIN');
 
         return $admin;
     }

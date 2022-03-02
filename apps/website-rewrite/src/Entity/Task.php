@@ -70,4 +70,9 @@ class Task
     {
         $this->isDone = $flag;
     }
+
+    public function setCreatedAt(DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 }
