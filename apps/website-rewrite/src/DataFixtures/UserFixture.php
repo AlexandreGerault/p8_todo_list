@@ -14,6 +14,7 @@ class UserFixture extends Fixture
     public const ADMIN_USER = 1;
     public const ACTING_USER = 2;
     public const NON_ACTING_USER = 3;
+    public const ADMIN_TO_BE_EDITED_USER = 4;
 
     public function __construct(private UserPasswordHasherInterface $hasher)
     {
@@ -24,6 +25,7 @@ class UserFixture extends Fixture
         $manager->persist($this->makeAdmin('admin@localhost', 'Administrator', 'admin'));
         $manager->persist($this->makeUser('user@localhost', 'User', 'user'));
         $manager->persist($this->makeUser('user2@localhost', 'User2', 'user2'));
+        $manager->persist($this->makeAdmin('admin-to-be-edited@localhost', 'Admin to edit', 'admin'));
 
         $manager->flush();
     }
