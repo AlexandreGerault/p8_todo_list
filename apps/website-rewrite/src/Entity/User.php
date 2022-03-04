@@ -100,4 +100,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->getEmail();
     }
+
+    public function removeRole(string $roleToRemove): void
+    {
+        $this->roles = array_filter($this->roles, fn (string $role) => $role !== $roleToRemove);
+    }
 }
