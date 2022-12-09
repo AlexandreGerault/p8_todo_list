@@ -15,7 +15,7 @@ class CreateTaskTest extends TaskTest
         $this->client->request('GET', $taskCreateUrl);
         $this->client->followRedirect();
 
-        $this->assertRouteSame('login');
+        self::assertRouteSame('login');
     }
 
     public function testAUserCanCreateATask(): void
@@ -24,9 +24,9 @@ class CreateTaskTest extends TaskTest
 
         $crawler = $this->createTask();
 
-        $this->assertRouteSame('task_list');
-        $this->assertStringContainsString('La tâche a été bien été ajoutée.', $crawler->html());
-        $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
+        self::assertRouteSame('task_list');
+        self::assertStringContainsString('La tâche a été bien été ajoutée.', $crawler->html());
+        self::assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
     }
 
     public function testAnAdminCanCreateATask(): void
@@ -35,9 +35,9 @@ class CreateTaskTest extends TaskTest
 
         $crawler = $this->createTask();
 
-        $this->assertRouteSame('task_list');
-        $this->assertStringContainsString('La tâche a été bien été ajoutée.', $crawler->html());
-        $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
+        self::assertRouteSame('task_list');
+        self::assertStringContainsString('La tâche a été bien été ajoutée.', $crawler->html());
+        self::assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
     }
 
     private function createTask(): Crawler
@@ -45,8 +45,8 @@ class CreateTaskTest extends TaskTest
         $taskCreateUrl = $this->generator->generate('task_create');
         $crawler = $this->client->request('GET', $taskCreateUrl);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('Ajouter', $crawler->html());
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('Ajouter', $crawler->html());
 
         $this->client->submitForm('Ajouter', [
             'task' => [

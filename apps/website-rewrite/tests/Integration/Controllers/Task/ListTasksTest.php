@@ -15,7 +15,7 @@ class ListTasksTest extends ControllerTestCase
         $this->client->request('GET', $taskListUrl);
         $this->client->followRedirect();
 
-        $this->assertRouteSame('login');
+        self::assertRouteSame('login');
     }
 
     public function testItDisplaysAllTasksOnListPageToAUser(): void
@@ -26,9 +26,9 @@ class ListTasksTest extends ControllerTestCase
 
         $crawler = $this->client->request('GET', $taskListUrl);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('Titre tâche 1', $crawler->html());
-        $this->assertStringContainsString('Titre tâche 2', $crawler->html());
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('Titre tâche 1', $crawler->html());
+        self::assertStringContainsString('Titre tâche 2', $crawler->html());
     }
 
     public function testItDisplaysAllTasksOnListPageToAnAdmin(): void
@@ -39,8 +39,8 @@ class ListTasksTest extends ControllerTestCase
 
         $crawler = $this->client->request('GET', $taskListUrl);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('Titre tâche 1', $crawler->html());
-        $this->assertStringContainsString('Titre tâche 2', $crawler->html());
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('Titre tâche 1', $crawler->html());
+        self::assertStringContainsString('Titre tâche 2', $crawler->html());
     }
 }

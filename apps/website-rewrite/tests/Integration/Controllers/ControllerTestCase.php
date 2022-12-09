@@ -19,7 +19,7 @@ class ControllerTestCase extends WebTestCase
         parent::setUp();
 
         $this->client = static::createClient();
-        $this->generator = $this->getContainer()->get('router');
+        $this->generator = self::getContainer()->get('router');
     }
 
     public function actingAsAdmin(): void

@@ -15,7 +15,7 @@ class ListUserTest extends UserTestCase
 
         $this->client->request('GET', $userListUrl);
 
-        $this->assertResponseRedirects($loginUrl);
+        self::assertResponseRedirects($loginUrl);
     }
 
     public function testAUserCannotSeeUserList(): void
@@ -25,7 +25,7 @@ class ListUserTest extends UserTestCase
         $this->actingAsUser();
         $this->client->request('GET', $userListUrl);
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function testAnAdminCanSeeUserList(): void
@@ -36,7 +36,7 @@ class ListUserTest extends UserTestCase
 
         $crawler = $this->client->request('GET', $userListUrl);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('user@localhost', $crawler->html());
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('user@localhost', $crawler->html());
     }
 }

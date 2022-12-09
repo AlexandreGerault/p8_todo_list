@@ -16,7 +16,7 @@ class EditUserTest extends UserTestCase
 
         $this->client->request('GET', $userEditUrl);
 
-        $this->assertResponseRedirects($loginUrl);
+        self::assertResponseRedirects($loginUrl);
     }
 
     public function testAUserCannotEditAnotherUser(): void
@@ -26,7 +26,7 @@ class EditUserTest extends UserTestCase
         $userEditUrl = $this->generator->generate('user_edit', ['id' => UserFixture::ACTING_USER]);
         $this->client->request('GET', $userEditUrl);
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function testAnAdminCanEditUser(): void
@@ -47,9 +47,9 @@ class EditUserTest extends UserTestCase
         ]);
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('user_list');
-        $this->assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
-        $this->assertEquals(
+        self::assertRouteSame('user_list');
+        self::assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
+        self::assertEquals(
             ['ROLE_USER'],
             $this->userRepository->findOneBy(['username' => 'Utilisateur modifié'])->getRoles()
         );
@@ -62,7 +62,7 @@ class EditUserTest extends UserTestCase
         $this->actingAsAdmin();
         $this->client->request('GET', $userEditUrl);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->client->submitForm('Modifier', [
             'user' => [
                 'username' => 'Administrateur modifié',
@@ -73,9 +73,9 @@ class EditUserTest extends UserTestCase
         ]);
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('user_list');
-        $this->assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
-        $this->assertContains(
+        self::assertRouteSame('user_list');
+        self::assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
+        self::assertContains(
             'ROLE_ADMIN',
             $this->userRepository->findOneBy(['username' => 'Administrateur modifié'])->getRoles()
         );
@@ -89,7 +89,7 @@ class EditUserTest extends UserTestCase
 
         $this->client->request('GET', $userEditUrl);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $this->client->submitForm('Modifier', [
             'user' => [
@@ -102,9 +102,9 @@ class EditUserTest extends UserTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('user_list');
-        $this->assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
-        $this->assertContains(
+        self::assertRouteSame('user_list');
+        self::assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
+        self::assertContains(
             'ROLE_ADMIN',
             $this->userRepository->findOneBy(['username' => 'Utilisateur promu administrateur'])->getRoles()
         );
@@ -117,7 +117,7 @@ class EditUserTest extends UserTestCase
         $this->actingAsAdmin();
 
         $this->client->request('GET', $userEditUrl);
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $this->client->submitForm('Modifier', [
             'user' => [
@@ -129,9 +129,9 @@ class EditUserTest extends UserTestCase
         ]);
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('user_list');
-        $this->assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
-        $this->assertNotContains(
+        self::assertRouteSame('user_list');
+        self::assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
+        self::assertNotContains(
             'ROLE_ADMIN',
             $this->userRepository->findOneBy(['username' => 'Administrateur déchu utilisateur'])->getRoles()
         );

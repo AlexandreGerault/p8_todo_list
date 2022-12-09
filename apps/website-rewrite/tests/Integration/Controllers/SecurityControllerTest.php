@@ -8,13 +8,13 @@ class SecurityControllerTest extends ControllerTestCase
 {
     public function testItRedirectsTheUserOnTheHomepageWhenAlreadyLoggedIn(): void
     {
-        $this->actingAsUser($this->client);
+        $this->actingAsUser();
 
         $loginUrl = $this->generator->generate('login');
         $this->client->request('GET', $loginUrl);
 
         $homepageUrl = $this->generator->generate('homepage');
-        $this->assertResponseRedirects($homepageUrl);
+        self::assertResponseRedirects($homepageUrl);
     }
 
     public function testItShowsTheFormToTheUserAndRedirectsIfLoginSuccessfully(): void
@@ -22,7 +22,7 @@ class SecurityControllerTest extends ControllerTestCase
         $url = $this->generator->generate('login');
         $this->client->request('GET', $url);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $this->client->submitForm('Se connecter', [
             '_username' => 'User',
@@ -30,7 +30,7 @@ class SecurityControllerTest extends ControllerTestCase
         ]);
 
         $this->client->followRedirect();
-        $this->assertRouteSame('homepage');
+        self::assertRouteSame('homepage');
     }
 
     public function testItShowsTheFormToTheUserAndDisplayWrongCredentialsError(): void
@@ -38,7 +38,7 @@ class SecurityControllerTest extends ControllerTestCase
         $url = $this->generator->generate('login');
         $this->client->request('GET', $url);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $this->client->submitForm('Se connecter', [
             '_username' => 'User',
@@ -47,8 +47,8 @@ class SecurityControllerTest extends ControllerTestCase
 
         $crawler = $this->client->followRedirect();
         $alert = $crawler->filter('[role="alert"]')->innerText();
-        $this->assertRouteSame('login');
-        $this->assertEquals('Identifiants invalides.', $alert);
+        self::assertRouteSame('login');
+        self::assertEquals('Identifiants invalides.', $alert);
     }
 
     public function testItShowsTheFormToTheUserAndDisplayInvalidCredentialsError(): void
@@ -56,7 +56,7 @@ class SecurityControllerTest extends ControllerTestCase
         $url = $this->generator->generate('login');
         $this->client->request('GET', $url);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $this->client->submitForm('Se connecter', [
             '_username' => 'wrong-user',
@@ -65,7 +65,7 @@ class SecurityControllerTest extends ControllerTestCase
 
         $crawler = $this->client->followRedirect();
         $alert = $crawler->filter('[role="alert"]')->innerText();
-        $this->assertRouteSame('login');
-        $this->assertEquals('Identifiants invalides.', $alert);
+        self::assertRouteSame('login');
+        self::assertEquals('Identifiants invalides.', $alert);
     }
 }

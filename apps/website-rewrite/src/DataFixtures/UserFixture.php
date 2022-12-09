@@ -16,7 +16,7 @@ class UserFixture extends Fixture
     public const NON_ACTING_USER = 3;
     public const ADMIN_TO_BE_EDITED_USER = 4;
 
-    public function __construct(private UserPasswordHasherInterface $hasher)
+    public function __construct(private readonly UserPasswordHasherInterface $hasher)
     {
     }
 

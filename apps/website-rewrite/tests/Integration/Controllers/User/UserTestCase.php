@@ -15,6 +15,6 @@ class UserTestCase extends ControllerTestCase
     {
         parent::setUp();
 
-        $this->userRepository = $this->getContainer()->get(UserRepository::class);
+        $this->userRepository = self::getContainer()->get(UserRepository::class);
     }
 }

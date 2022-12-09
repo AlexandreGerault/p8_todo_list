@@ -13,7 +13,7 @@ class ToggleTaskTest extends TaskTest
         $this->client->request('GET', $taskToggleUrl);
         $this->client->followRedirect();
 
-        $this->assertRouteSame('login');
+        self::assertRouteSame('login');
     }
 
     public function testAUserCanToggleATask(): void
@@ -25,8 +25,8 @@ class ToggleTaskTest extends TaskTest
         $this->client->request('GET', $taskToggleUrl);
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('task_list');
-        $this->assertCount(1, $crawler->filter('div[data-is-done="1"]'));
+        self::assertRouteSame('task_list');
+        self::assertCount(1, $crawler->filter('div[data-is-done="1"]'));
     }
 
     public function testAUserCannotToggleATaskBelongingToAnotherUser(): void
@@ -37,6 +37,6 @@ class ToggleTaskTest extends TaskTest
 
         $this->client->request('GET', $taskToggleUrl);
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 }

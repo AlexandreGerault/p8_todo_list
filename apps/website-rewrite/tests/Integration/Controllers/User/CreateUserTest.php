@@ -15,7 +15,7 @@ class CreateUserTest extends UserTestCase
         $userCreateUrl = $this->generator->generate('user_create');
         $this->client->request('GET', $userCreateUrl);
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function testAUserCannotCreateAUser(): void
@@ -25,7 +25,7 @@ class CreateUserTest extends UserTestCase
 
         $this->client->request('GET', $userCreateUrl);
 
-        $this->assertResponseRedirects($loginUrl);
+        self::assertResponseRedirects($loginUrl);
     }
 
     public function testAnAdminCanCreateUser(): void
@@ -47,9 +47,9 @@ class CreateUserTest extends UserTestCase
             ],
         ]);
         $crawler = $this->client->followRedirect();
-        $this->assertRouteSame('user_list');
-        $this->assertStringContainsString("L'utilisateur a bien été ajouté.", $crawler->html());
-        $this->assertEquals(
+        self::assertRouteSame('user_list');
+        self::assertStringContainsString("L'utilisateur a bien été ajouté.", $crawler->html());
+        self::assertEquals(
             ['ROLE_USER'],
             $this->userRepository->findOneBy(['username' => 'Nouvel utilisateur'])->getRoles()
         );
@@ -62,8 +62,8 @@ class CreateUserTest extends UserTestCase
         $this->actingAsAdmin();
         $crawler = $this->client->request('GET', $userCreateUrl);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('Ajouter', $crawler->html());
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('Ajouter', $crawler->html());
 
         $this->client->submitForm('Ajouter', [
             'user' => [
@@ -74,9 +74,9 @@ class CreateUserTest extends UserTestCase
             ],
         ]);
         $crawler = $this->client->followRedirect();
-        $this->assertRouteSame('user_list');
-        $this->assertStringContainsString("L'utilisateur a bien été ajouté.", $crawler->html());
-        $this->assertContains(
+        self::assertRouteSame('user_list');
+        self::assertStringContainsString("L'utilisateur a bien été ajouté.", $crawler->html());
+        self::assertContains(
             'ROLE_ADMIN',
             $this->userRepository->findOneBy(['username' => 'Nouvel administrateur'])->getRoles()
         );

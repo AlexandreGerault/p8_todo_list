@@ -11,16 +11,16 @@ class DefaultControllerTest extends ControllerTestCase
         $this->actingAsAdmin($this->client);
         $this->client->request('GET', '/');
 
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Bienvenue');
-        $this->assertSelectorTextContains('a[href="/tasks/create"]', 'Créer une nouvelle tâche');
-        $this->assertSelectorTextContains('a[href="/tasks"]', 'Consulter la liste des tâches à faire');
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('h1', 'Bienvenue');
+        self::assertSelectorTextContains('a[href="/tasks/create"]', 'Créer une nouvelle tâche');
+        self::assertSelectorTextContains('a[href="/tasks"]', 'Consulter la liste des tâches à faire');
     }
 
     public function testAGuestUserIsRedirected(): void
     {
         $this->client->request('GET', '/');
 
-        $this->assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 }

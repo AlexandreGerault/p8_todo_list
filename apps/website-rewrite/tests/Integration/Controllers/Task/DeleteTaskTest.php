@@ -13,7 +13,7 @@ class DeleteTaskTest extends TaskTest
         $this->client->request('GET', $taskDeleteUrl);
         $this->client->followRedirect();
 
-        $this->assertRouteSame('login');
+        self::assertRouteSame('login');
     }
 
     public function testAUserCanDeleteATask(): void
@@ -25,8 +25,8 @@ class DeleteTaskTest extends TaskTest
         $this->client->request('GET', $taskDeleteUrl);
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('task_list');
-        $this->assertStringNotContainsString('Titre tâche ' . self::ACTING_USER_TASK_ID, $crawler->html());
+        self::assertRouteSame('task_list');
+        self::assertStringNotContainsString('Titre tâche ' . self::ACTING_USER_TASK_ID, $crawler->html());
     }
 
     public function testAnAdminCanDeleteATask(): void
@@ -38,7 +38,7 @@ class DeleteTaskTest extends TaskTest
         $this->client->request('GET', $taskDeleteUrl);
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('task_list');
-        $this->assertStringNotContainsString('Titre tâche ' . self::ACTING_USER_TASK_ID, $crawler->html());
+        self::assertRouteSame('task_list');
+        self::assertStringNotContainsString('Titre tâche ' . self::ACTING_USER_TASK_ID, $crawler->html());
     }
 }

@@ -13,7 +13,7 @@ class EditTaskTest extends TaskTest
         $this->client->request('GET', $taskEditUrl);
         $this->client->followRedirect();
 
-        $this->assertRouteSame('login');
+        self::assertRouteSame('login');
     }
 
     public function testAUserCanEditATask(): void
@@ -23,7 +23,7 @@ class EditTaskTest extends TaskTest
         $taskEditUrl = $this->generator->generate('task_edit', ['id' => self::ACTING_USER_TASK_ID]);
         $crawler = $this->client->request('GET', $taskEditUrl);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->assertStringContainsString('Modifier', $crawler->html());
 
         $this->client->submitForm('Modifier', [
@@ -34,10 +34,10 @@ class EditTaskTest extends TaskTest
         ]);
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('task_list');
-        $this->assertStringNotContainsString('Titre tâche 2', $crawler->html());
-        $this->assertStringContainsString('La tâche a bien été modifiée.', $crawler->html());
-        $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
+        self::assertRouteSame('task_list');
+        self::assertStringNotContainsString('Titre tâche 2', $crawler->html());
+        self::assertStringContainsString('La tâche a bien été modifiée.', $crawler->html());
+        self::assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
     }
 
     public function testAUserCannotEditTheTaskOfAnotherUser(): void
@@ -48,7 +48,7 @@ class EditTaskTest extends TaskTest
 
         $this->client->request('GET', $taskEditUrl);
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function testAUserCannotEditAnAnonymousTask(): void
@@ -59,7 +59,7 @@ class EditTaskTest extends TaskTest
 
         $this->client->request('GET', $taskEditUrl);
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function testAnAdminCanEditAnAnonymousTask(): void
@@ -69,8 +69,8 @@ class EditTaskTest extends TaskTest
         $taskEditUrl = $this->generator->generate('task_edit', ['id' => self::ORPHAN_TASK_ID]);
         $crawler = $this->client->request('GET', $taskEditUrl);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('Modifier', $crawler->html());
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('Modifier', $crawler->html());
 
         $this->client->submitForm('Modifier', [
             'task' => [
@@ -80,9 +80,9 @@ class EditTaskTest extends TaskTest
         ]);
         $crawler = $this->client->followRedirect();
 
-        $this->assertRouteSame('task_list');
-        $this->assertStringNotContainsString('Titre tâche 1', $crawler->html());
-        $this->assertStringContainsString('La tâche a bien été modifiée.', $crawler->html());
-        $this->assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
+        self::assertRouteSame('task_list');
+        self::assertStringNotContainsString('Titre tâche 1', $crawler->html());
+        self::assertStringContainsString('La tâche a bien été modifiée.', $crawler->html());
+        self::assertStringContainsString('Titre de la nouvelle tâche', $crawler->html());
     }
 }
