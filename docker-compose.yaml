@@ -20,6 +20,7 @@ services:
       - ./apps/website-rewrite:/apps/website-rewrite
     ports:
       - '${NGINX_REWRITE_PORT}:80'
+      - '${NGINX_REWRITE_REPORT_PORT}:81'
     depends_on:
       - website-rewrite-php
 
@@ -39,6 +40,7 @@ services:
       DB_DATABASE: ${MYSQL_DATABASE}
       DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
+      XDEBUG_MODE: coverage
     user: ${LOCAL_USER}
 
   blackfire:

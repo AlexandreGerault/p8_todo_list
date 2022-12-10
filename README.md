@@ -39,3 +39,6 @@ To run the tests, run the following command:
 ```
 make test
 ```
+
+By default, tests are available at http://localhost:3436. If you changed the `NGINX_REWRITE_PORT` environment variable,
+then you need to change the port in the URL.

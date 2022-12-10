@@ -43,7 +43,7 @@ analyse: ## Static analysis
 	docker-compose exec website-rewrite-php ./vendor/bin/phpstan analyse --memory-limit=2G
 
 test: ## Start the whole test suite
-	docker-compose exec website-rewrite-php php vendor/bin/phpunit
+	docker-compose exec website-rewrite-php php vendor/bin/phpunit --coverage-html reports/
 
 prepare: format analyse test
 
