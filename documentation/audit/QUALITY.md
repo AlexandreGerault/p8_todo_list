@@ -44,12 +44,13 @@ $ ./vendor/bin/phpstan analyse src --level=7
 Four of the five errors seem to be related to the use of the container instead of dependency injection, making the
 static analysis struggle to determine types.
 
-Also, some reading of the source code reveals that database queries are made directly from the controller, violating the
-SRP.
+Also, reading the source code reveals that services are accessed directly from the container instead of being injected.
+This is a bad practice that should be avoided nowadays.
 
 ## Strategy to solve this issues
 
 To solve these quality issues, we need to establish a strategy. The strategy is to:
+
 1. Upgrade the application to the latest Symfony and the latest PHP versions
 2. Fix the PHPStan errors
 3. Increase the PHPStan level to the maximum (from 7 to 9)
