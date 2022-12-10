@@ -52,5 +52,12 @@ services:
       BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
       BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
 
+  node:
+    image: node:latest
+    working_dir: /apps/website-rewrite
+    volumes:
+      - ./apps/website-rewrite:/apps/website-rewrite
+    command: yarn watch
+
 volumes:
   database-volume:
