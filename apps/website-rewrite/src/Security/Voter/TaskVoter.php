@@ -15,6 +15,11 @@ class TaskVoter extends Voter
     {
     }
 
+    /**
+     * @param string $attribute
+     * @param Task|object $subject
+     * @return bool
+     */
     protected function supports($attribute, $subject): bool
     {
         return in_array($attribute, ['TASK_EDIT', 'TASK_TOGGLE']) && $subject instanceof Task;
@@ -30,6 +35,6 @@ class TaskVoter extends Voter
             return true;
         }
 
-        return $subject?->getUser()?->getUserIdentifier() === $token->getUser()->getUserIdentifier();
+        return $subject->getUser()?->getUserIdentifier() === $token->getUser()?->getUserIdentifier();
     }
 }

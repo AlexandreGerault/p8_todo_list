@@ -19,6 +19,9 @@ class TaskFixture extends Fixture implements DependentFixtureInterface
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function load(ObjectManager $manager): void
     {
         $manager->persist($this->makeTask('Titre tâche 1', 'Contenu tâche 1', '2022-02-16 00:00:00'));
@@ -39,7 +42,11 @@ class TaskFixture extends Fixture implements DependentFixtureInterface
         $task->setContent($content);
         $task->setCreatedAt(new DateTimeImmutable($dateTime));
         if ($userId) {
-            $task->setUser($this->userRepository->find($userId));
+            $user = $this->userRepository->find($userId);
+
+            if ($user instanceof User) {
+                $task->setUser($user);
+            }
         }
 
         return $task;

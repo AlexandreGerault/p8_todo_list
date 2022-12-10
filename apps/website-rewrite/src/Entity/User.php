@@ -30,6 +30,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(message: "Le format de l'adresse n'est pas correct.")]
     private string $email;
 
+    /**
+     * @var array<string>
+     */
     #[ORM\Column(type: "json")]
     private array $roles = ['ROLE_USER'];
 
