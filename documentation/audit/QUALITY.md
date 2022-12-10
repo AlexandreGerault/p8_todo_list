@@ -41,10 +41,10 @@ $ ./vendor/bin/phpstan analyse src --level=7
                                                                                                                         
 ```
 
-Four of the five errors seems to be related to the use of the container instead of dependency injection, making the
+Four of the five errors seem to be related to the use of the container instead of dependency injection, making the
 static analysis struggle to determine types.
 
-Also, some reading of the source code reveals that databse queries are made directly from the controller, violating the
+Also, some reading of the source code reveals that database queries are made directly from the controller, violating the
 SRP.
 
 ## Strategy to solve this issues
