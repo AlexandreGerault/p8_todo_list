@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+actor Visitor
+
+actor Admin
+
+actor User
+
+Visitor --> (Login)
+
+User --> (Create Task)
+User --> (Delete Task)
+User --> (Update Task)
+User --> (List Task)
+User --> (Toggle Task)
+
+Admin <|- User
+
+Admin --> (Create User)
+Admin --> (Create Admin)
+Admin --> (Delete User)
+Admin --> (Update User)
+Admin --> (List User)
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Task {
+    - $id: int
+    - $createdAt: DateTime
+    - $title: string
+    - $content: string
+    - $isDone: bool
+
+    + getId(): int
+    + getCreatedAt(): DateTime
+    + getTitle(): string
+    + getContent(): string
+    + isDone(): bool
+
+    + setTitle(string $title): void
+    + setContent(string $content): void
+    + toggle(bool $flag): void
+    + setCreatedAt(DateTime $createdAt): void
+}
+
+class User {
+    - $id: int
+    - $username: string
+    - $password: string
+    - $email: string
+    - $roles: string[]
+    --
+    + getId(): int
+    + getUsername(): string
+    + getPassword(): string
+    + getEmail(): string
+    + getRoles(): string[]
+    + getSalt(): ?string
+
+    + setUsername(string $username): void
+    + setPassword(string $password): void
+    + setEmail(string $email): void
+    + addRole(string $role): void
+    + removeRole(string $role): void
+}
+
+User *-- Task : owns
+
+@enduml
