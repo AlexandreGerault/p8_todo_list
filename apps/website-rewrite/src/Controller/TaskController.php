@@ -82,7 +82,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/delete', name: 'task_delete')]
-    #[IsGranted('TASK_TOGGLE', subject: 'task')]
+    #[IsGranted('TASK_DELETE', subject: 'task')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em): RedirectResponse
     {
         $em->remove($task);

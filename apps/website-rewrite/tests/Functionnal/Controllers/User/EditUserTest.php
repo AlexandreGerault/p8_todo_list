@@ -93,7 +93,7 @@ class EditUserTest extends UserTestCase
 
         $this->client->submitForm('Modifier', [
             'user' => [
-                'username' => 'Utilisateur promu administrateur',
+                'username' => 'Utilisateur promu',
                 'password' => ['first' => 'password', 'second' => 'password'],
                 'email' => 'utilisateur-promu-administrateur@email.fr',
                 'role' => 'admin',
@@ -106,7 +106,7 @@ class EditUserTest extends UserTestCase
         self::assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
         self::assertContains(
             'ROLE_ADMIN',
-            $this->userRepository->findOneBy(['username' => 'Utilisateur promu administrateur'])->getRoles()
+            $this->userRepository->findOneBy(['username' => 'Utilisateur promu'])->getRoles()
         );
     }
 
@@ -121,7 +121,7 @@ class EditUserTest extends UserTestCase
 
         $this->client->submitForm('Modifier', [
             'user' => [
-                'username' => 'Administrateur déchu utilisateur',
+                'username' => 'Administrateur déchu',
                 'password' => ['first' => 'password', 'second' => 'password'],
                 'email' => 'administrateur-dechu-utilisateur@email.fr',
                 'role' => 'user',
@@ -133,7 +133,7 @@ class EditUserTest extends UserTestCase
         self::assertStringContainsString("L'utilisateur a bien été modifié.", $crawler->html());
         self::assertNotContains(
             'ROLE_ADMIN',
-            $this->userRepository->findOneBy(['username' => 'Administrateur déchu utilisateur'])->getRoles()
+            $this->userRepository->findOneBy(['username' => 'Administrateur déchu'])->getRoles()
         );
     }
 }
