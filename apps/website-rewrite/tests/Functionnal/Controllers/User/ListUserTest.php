@@ -24,8 +24,9 @@ class ListUserTest extends UserTestCase
 
         $this->actingAsUser();
         $this->client->request('GET', $userListUrl);
+        $crawler = $this->client->followRedirect();
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertForbidden($crawler, "Vous n'avez pas le droit d'accéder à cette page.");
     }
 
     public function testAnAdminCanSeeUserList(): void

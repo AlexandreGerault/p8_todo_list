@@ -14,8 +14,9 @@ class CreateUserTest extends UserTestCase
 
         $userCreateUrl = $this->generator->generate('user_create');
         $this->client->request('GET', $userCreateUrl);
+        $crawler = $this->client->followRedirect();
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertForbidden($crawler, "Vous n'avez pas le droit d'accéder à cette page.");
     }
 
     public function testAUserCannotCreateAUser(): void
@@ -35,8 +36,8 @@ class CreateUserTest extends UserTestCase
         $this->actingAsAdmin();
         $crawler = $this->client->request('GET', $userCreateUrl);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('Ajouter', $crawler->html());
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('Ajouter', $crawler->html());
 
         $this->client->submitForm('Ajouter', [
             'user' => [

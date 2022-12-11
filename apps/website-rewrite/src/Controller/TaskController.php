@@ -48,7 +48,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/edit', name: 'task_edit')]
-    #[IsGranted('TASK_EDIT', subject: 'task')]
+    #[IsGranted('TASK_EDIT', subject: 'task', message: "Vous n'avez pas le droit de modifier cette tâche.")]
     public function edit(Task $task, Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $form = $this->createForm(TaskType::class, $task);
@@ -70,7 +70,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
-    #[IsGranted('TASK_TOGGLE', subject: 'task')]
+    #[IsGranted('TASK_TOGGLE', subject: 'task', message: "Vous n'avez pas le droit de basculer cette tâche.")]
     public function toggle(Task $task, EntityManagerInterface $em): RedirectResponse
     {
         $task->toggle(!$task->isDone());
@@ -82,7 +82,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/delete', name: 'task_delete')]
-    #[IsGranted('TASK_DELETE', subject: 'task')]
+    #[IsGranted('TASK_DELETE', subject: 'task', message: "Vous n'avez pas le droit de supprimer cette tâche.")]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em): RedirectResponse
     {
         $em->remove($task);

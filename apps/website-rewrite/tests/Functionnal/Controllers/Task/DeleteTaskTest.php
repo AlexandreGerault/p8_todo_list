@@ -36,11 +36,9 @@ class DeleteTaskTest extends TaskTest
         $taskDeleteUrl = $this->generator->generate('task_delete', ['id' => self::BELONGING_TO_OTHER_USER_TASK_ID]);
 
         $this->client->request('GET', $taskDeleteUrl);
-        self::assertResponseStatusCodeSame(403);
-//        $crawler = $this->client->followRedirect();
-//
-//        self::assertRouteSame('task_list');
-//        self::assertStringContainsString('Impossible de modifier cette tâche', $crawler->html());
+        $crawler = $this->client->followRedirect();
+
+        self::assertForbidden($crawler, "Vous n'avez pas le droit de supprimer cette tâche.");
     }
 
     public function testAnAdminCanDeleteATaskHeOwns(): void
@@ -63,10 +61,8 @@ class DeleteTaskTest extends TaskTest
         $taskDeleteUrl = $this->generator->generate('task_delete', ['id' => self::BELONGING_TO_USER_TASK_ID]);
 
         $this->client->request('GET', $taskDeleteUrl);
-        self::assertResponseStatusCodeSame(403);
-//        $crawler = $this->client->followRedirect();
-//
-//        self::assertRouteSame('task_list');
-//        self::assertStringContainsString('Impossible de modifier cette tâche', $crawler->html());
+        $crawler = $this->client->followRedirect();
+
+        self::assertForbidden($crawler, "Vous n'avez pas le droit de supprimer cette tâche.");
     }
 }
