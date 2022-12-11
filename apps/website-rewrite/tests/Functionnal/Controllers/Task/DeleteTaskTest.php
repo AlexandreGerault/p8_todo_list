@@ -56,7 +56,7 @@ class DeleteTaskTest extends TaskTest
         self::assertStringNotContainsString('Titre tâche ' . self::BELONGING_TO_ADMIN_TASK_ID, $crawler->html());
     }
 
-    public function testAnAdminCannotDeleteATaskOfAnotherUser()
+    public function testAnAdminCannotDeleteATaskOfAnotherUser(): void
     {
         $this->actingAsAdmin();
 
