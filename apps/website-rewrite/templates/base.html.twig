@@ -21,7 +21,9 @@
 <!-- Page Content -->
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8 space-y-4">
     <div class="w-full flex justify-between gap-2">
+        {% if is_granted('ROLE_ADMIN') %}
         {{ component('button-link', {href: path('user_create'), text: 'Créer un utilisateur' }) }}
+        {% endif %}
 
         {% if app.user %}
             {{ component('button-link', {href: path('logout'), text: 'Se déconnecter', color: 'red' }) }}

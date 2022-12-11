@@ -1,9 +1,24 @@
 <nav class="bg-blue-100" role="navigation">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center gap-4">
-        <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms"/>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
+        {# LEFT #}
+        <div class="flex items-center gap-4">
+            <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms"/>
 
-        <a class="text-xl text-blue-700" href="{{ path('homepage') }}">
-            To Do List app
-        </a>
+            <a class="text-xl text-blue-700" href="{{ path('homepage') }}">
+                To Do List app
+            </a>
+        </div>
+
+        {# Right #}
+        <div class="flex gap-4">
+            {% if is_granted('ROLE_ADMIN') %}
+            <a class="text-blue-700" href="{{ path('user_list') }}">
+                Liste des utilisateurs
+            </a>
+            {% endif %}
+            <a class="text-blue-700" href="{{ path('task_list') }}">
+                Liste des tâches
+            </a>
+        </div>
     </div>
 </nav>
