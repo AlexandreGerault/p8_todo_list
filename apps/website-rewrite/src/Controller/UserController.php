@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -83,5 +84,17 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+    }
+
+    #[Route(path: '/users/{id}/delete', name: 'user_delete')]
+    #[IsGranted('USER_DELETE', subject: 'user', message: "Vous n'avez pas le droit de supprimer un utilisateur.")]
+    public function delete(User $user, Request $request, EntityManagerInterface $em): Response
+    {
+        $em->remove($user);
+        $em->flush();
+
+        $this->addFlash('success', "L'utilisateur a bien été supprimé.");
+
+        return $this->redirect($request->headers->get('referer') ?? "/");
     }
 }
