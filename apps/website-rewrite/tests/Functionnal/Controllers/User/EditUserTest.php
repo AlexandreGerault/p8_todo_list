@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Controllers\User;
+namespace App\Tests\Functionnal\Controllers\User;
 
 use App\DataFixtures\UserFixture;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

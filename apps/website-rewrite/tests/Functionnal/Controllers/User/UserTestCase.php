@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Controllers\User;
+namespace App\Tests\Functionnal\Controllers\User;
 
 use App\Repository\UserRepository;
-use App\Tests\Integration\Controllers\ControllerTestCase;
+use App\Tests\Functionnal\Controllers\ControllerTestCase;
 
 class UserTestCase extends ControllerTestCase
 {
