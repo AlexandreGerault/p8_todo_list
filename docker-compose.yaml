@@ -12,6 +12,19 @@ services:
     volumes:
       - database-volume:/var/lib/mysql
 
+  mysql_test:
+    image: mysql:latest
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - '${MYSQL_PORT_TEST}:3306'
+    volumes:
+      - test-database-volume:/var/lib/mysql
+
   nginx-rewrite:
     image: nginx:latest
     restart: on-failure
@@ -36,6 +49,7 @@ services:
     environment:
       DB_CONNECTION: mysql
       DB_HOST: mysql
+      DB_TEST_HOST: mysql_test
       DB_PORT: 3306
       DB_DATABASE: ${MYSQL_DATABASE}
       DB_USERNAME: ${MYSQL_USER}
@@ -61,3 +75,4 @@ services:
 
 volumes:
   database-volume:
+  test-database-volume:

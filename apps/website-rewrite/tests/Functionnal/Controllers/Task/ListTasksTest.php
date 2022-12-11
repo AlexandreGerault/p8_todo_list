@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Controllers\Task;
+namespace App\Tests\Functionnal\Controllers\Task;
 
-use App\Tests\Integration\Controllers\ControllerTestCase;
+use App\Tests\Functionnal\Controllers\ControllerTestCase;
 
 class ListTasksTest extends ControllerTestCase
 {

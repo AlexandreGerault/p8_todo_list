@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Controllers\Task;
+namespace App\Tests\Functionnal\Controllers\Task;
 
 class ToggleTaskTest extends TaskTest
 {
     public function testAGuestCannotToggleATask(): void
     {
-        $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::ACTING_USER_TASK_ID]);
+        $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::BELONGING_TO_USER_TASK_ID]);
 
         $this->client->request('GET', $taskToggleUrl);
         $this->client->followRedirect();
@@ -20,7 +20,7 @@ class ToggleTaskTest extends TaskTest
     {
         $this->actingAsUser();
 
-        $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::ACTING_USER_TASK_ID]);
+        $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::BELONGING_TO_USER_TASK_ID]);
 
         $this->client->request('GET', $taskToggleUrl);
         $crawler = $this->client->followRedirect();

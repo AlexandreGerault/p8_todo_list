@@ -18,9 +18,10 @@ status: ## Stack status
 install:
 	@docker-compose --env-file .env up -d
 	@docker-compose exec website-rewrite-php composer install
-	@docker-compose exec website-rewrite-php php bin/console d:d:c
 	@docker-compose exec website-rewrite-php php bin/console doctrine:migrations:migrate --no-interaction
 	@docker-compose exec website-rewrite-php php bin/console doctrine:fixtures:load --no-interaction
+	@docker-compose exec website-rewrite-php APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction
+	@docker-compose exec website-rewrite-php APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction
 	@docker-compose run node yarn install
 	@docker-compose start node
 
