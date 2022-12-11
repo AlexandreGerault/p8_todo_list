@@ -6,6 +6,7 @@ use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,15 +20,15 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks', name: 'task_list')]
-    public function listAction(): ?Response
+    public function list(): ?Response
     {
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->taskRepository->findAll()
+            'tasks' => $this->taskRepository->findAll(),
         ]);
     }
 
     #[Route(path: '/tasks/create', name: 'task_create')]
-    public function createAction(Request $request, EntityManagerInterface $em): RedirectResponse|Response|null
+    public function create(Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -47,7 +48,8 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/edit', name: 'task_edit')]
-    public function editAction(Task $task, Request $request, EntityManagerInterface $em): RedirectResponse|Response|null
+    #[IsGranted('TASK_EDIT', subject: 'task', message: "Vous n'avez pas le droit de modifier cette tâche.")]
+    public function edit(Task $task, Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $form = $this->createForm(TaskType::class, $task);
 
@@ -68,7 +70,8 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
-    public function toggleTaskAction(Task $task, EntityManagerInterface $em): RedirectResponse
+    #[IsGranted('TASK_TOGGLE', subject: 'task', message: "Vous n'avez pas le droit de basculer cette tâche.")]
+    public function toggle(Task $task, EntityManagerInterface $em): RedirectResponse
     {
         $task->toggle(!$task->isDone());
         $em->flush();
@@ -79,6 +82,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/delete', name: 'task_delete')]
+    #[IsGranted('TASK_DELETE', subject: 'task', message: "Vous n'avez pas le droit de supprimer cette tâche.")]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em): RedirectResponse
     {
         $em->remove($task);

@@ -3,11 +3,13 @@
 {% block body %}
     <div class="row">
         {{ form_start(form, {'action' : path('task_create')}) }}
-            {{ form_widget(form) }}
+        {{ form_widget(form) }}
 
-            <button type="submit" class="btn btn-success pull-right">Ajouter</button>
+        <div class="w-full flex justify-end">
+            {{ component('button', {text: 'Ajouter', color: 'green', type: 'submit'}) }}
+        </div>
         {{ form_end(form) }}
 
-        <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
+        {{ component('button-link', {href: path('task_list'), text: 'Retour à la liste des tâches'}) }}
     </div>
 {% endblock %}

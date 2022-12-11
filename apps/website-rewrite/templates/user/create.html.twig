@@ -6,9 +6,11 @@
 {% block body %}
     <div class="row">
         {{ form_start(form, {'action' : path('user_create')}) }}
-            {{ form_widget(form) }}
+        {{ form_widget(form) }}
 
-            <button type="submit" class="btn btn-success pull-right">Ajouter</button>
+        <div class="w-full flex justify-end">
+            {{ component('button', {text: 'Ajouter', color: 'green', type: 'submit'}) }}
+        </div>
         {{ form_end(form) }}
     </div>
 {% endblock %}

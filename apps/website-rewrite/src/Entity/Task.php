@@ -30,25 +30,20 @@ class Task
     #[ORM\Column(type: 'boolean')]
     private bool $isDone;
 
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $user;
+
     public function __construct()
     {
         $this->createdAt = new Datetime();
         $this->isDone = false;
+        $this->user = null;
     }
 
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function getCreatedAt(): DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): void
-    {
-        $this->createdAt = $createdAt;
     }
 
     public function getTitle(): string
@@ -79,5 +74,26 @@ class Task
     public function toggle(bool $flag): void
     {
         $this->isDone = $flag;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setCreatedAt(DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }

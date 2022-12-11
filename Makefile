@@ -15,6 +15,16 @@ restart: down up ### Restart the project stack
 status: ## Stack status
 	@docker-compose ps
 
+install:
+	@docker-compose --env-file .env up -d
+	@docker-compose exec website-rewrite-php composer install
+	@docker-compose exec website-rewrite-php php bin/console doctrine:migrations:migrate --no-interaction
+	@docker-compose exec website-rewrite-php php bin/console doctrine:fixtures:load --no-interaction
+	@docker-compose exec website-rewrite-php APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction
+	@docker-compose exec website-rewrite-php APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction
+	@docker-compose run node yarn install
+	@docker-compose start node
+
 #-----------------------------------------------------------
 ##@ # Legacy stack commands
 #-----------------------------------------------------------
@@ -37,13 +47,13 @@ legacy-status: ## Stack status
 #-----------------------------------------------------------
 
 format: ## Lint the code
-	docker-compose run php tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --allow-risky=yes
+	docker-compose exec website-rewrite-php vendor/bin/php-cs-fixer fix --allow-risky=yes
 
 analyse: ## Static analysis
-	docker-compose run php ./vendor/bin/phpstan analyse --memory-limit=2G
+	docker-compose exec website-rewrite-php ./vendor/bin/phpstan analyse --memory-limit=2G
 
 test: ## Start the whole test suite
-	docker-compose run php php artisan test
+	docker-compose exec website-rewrite-php php vendor/bin/phpunit --coverage-html reports/
 
 prepare: format analyse test
 

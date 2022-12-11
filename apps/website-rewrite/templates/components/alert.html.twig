@@ -1,0 +1,10 @@
+{% set map = {
+    'blue': {'classes': 'bg-blue-200 text-blue-900'},
+    'red': {'classes': 'bg-red-200 text-red-900'},
+    'green': {'classes': 'bg-green-200 text-green-900'},
+    'orange': {'classes': 'bg-orange-200 text-orange-900'},
+} %}
+
+<div class="px-6 py-4 {{ map[this.color].classes }} rounded-lg mb-4" role="alert">
+    {{ this.text }}
+</div>
