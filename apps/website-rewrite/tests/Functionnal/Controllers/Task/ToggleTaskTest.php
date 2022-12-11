@@ -36,7 +36,8 @@ class ToggleTaskTest extends TaskTest
         $taskToggleUrl = $this->generator->generate('task_toggle', ['id' => self::BELONGING_TO_OTHER_USER_TASK_ID]);
 
         $this->client->request('GET', $taskToggleUrl);
+        $crawler = $this->client->followRedirect();
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertForbidden($crawler, "Vous n'avez pas le droit de basculer cette tâche.");
     }
 }

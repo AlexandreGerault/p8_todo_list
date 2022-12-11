@@ -47,8 +47,9 @@ class EditTaskTest extends TaskTest
         $taskEditUrl = $this->generator->generate('task_edit', ['id' => self::BELONGING_TO_OTHER_USER_TASK_ID]);
 
         $this->client->request('GET', $taskEditUrl);
+        $crawler = $this->client->followRedirect();
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertForbidden($crawler, "Vous n'avez pas le droit de modifier cette tâche.");
     }
 
     public function testAUserCannotEditAnAnonymousTask(): void
@@ -58,8 +59,9 @@ class EditTaskTest extends TaskTest
         $taskEditUrl = $this->generator->generate('task_edit', ['id' => self::ORPHAN_TASK_ID]);
 
         $this->client->request('GET', $taskEditUrl);
+        $crawler = $this->client->followRedirect();
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertForbidden($crawler, "Vous n'avez pas le droit de modifier cette tâche.");
     }
 
     public function testAnAdminCanEditAnAnonymousTask(): void

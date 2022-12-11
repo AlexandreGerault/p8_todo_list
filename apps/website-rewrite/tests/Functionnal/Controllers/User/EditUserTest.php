@@ -25,8 +25,9 @@ class EditUserTest extends UserTestCase
 
         $userEditUrl = $this->generator->generate('user_edit', ['id' => UserFixture::ACTING_USER]);
         $this->client->request('GET', $userEditUrl);
+        $crawler = $this->client->followRedirect();
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertForbidden($crawler, "Vous n'avez pas le droit d'accéder à cette page.");
     }
 
     public function testAnAdminCanEditUser(): void

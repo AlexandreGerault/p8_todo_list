@@ -7,6 +7,7 @@ namespace App\Tests\Functionnal\Controllers;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Routing\RouterInterface;
 
 class ControllerTestCase extends WebTestCase
@@ -34,5 +35,10 @@ class ControllerTestCase extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByEmail('user@localhost');
         $this->client->loginUser($user);
+    }
+
+    public static function assertForbidden(Crawler $crawler, string $message): void
+    {
+        self::assertStringContainsString($message, $crawler->html());
     }
 }
